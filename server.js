@@ -41,7 +41,7 @@ const pusher = new Pusher({
 //  middlewares
 app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://whatsapp-mern-clon.netlify.app"],
     credentials: true
 }));
 app.use(cookieParser());
@@ -135,6 +135,8 @@ app.post('/messages/new', (req, res)=>{
         }
     });
 });
+
+ // Register user
 app.post('/signup/new', upload.single("profileImg"), async (req, res)=>{
     try {
         const fname = req.body.fname;
@@ -195,6 +197,8 @@ app.post('/signup/new', upload.single("profileImg"), async (req, res)=>{
         res
           .cookie("token", token, {
             httpOnly: true,
+            secure: true,
+            sameSite: "none",
           })
           .send();
       } catch (err) {
@@ -215,8 +219,6 @@ app.post('/signup/new', upload.single("profileImg"), async (req, res)=>{
 
 
     //validate to login the user
-
-
     app.post("/login", async (req, res) => {
       try {
         const { email, password } = req.body;
@@ -250,6 +252,8 @@ app.post('/signup/new', upload.single("profileImg"), async (req, res)=>{
        res
           .cookie("token", token, {
             httpOnly: true,
+            secure: true,
+            sameSite: "none",
           })
           .send();
       } catch (err) {
@@ -263,6 +267,8 @@ app.post('/signup/new', upload.single("profileImg"), async (req, res)=>{
       res
         .cookie("token", "", {
           httpOnly: true,
+          secure: true,
+          sameSite: "none",
           expires: new Date(0),
         })
         .send();
